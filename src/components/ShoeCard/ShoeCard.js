@@ -35,14 +35,31 @@ const ShoeCard = ({
 			<Wrapper>
 				<ImageWrapper>
 					<Image alt="" src={imageSrc} />
+					{variant === 'on-sale' && (
+						<Ribbon style={{ '--bgcolor': COLORS.primary }}>Sale</Ribbon>
+					)}
+					{variant === 'new-release' && (
+						<Ribbon style={{ '--bgcolor': COLORS.secondary }}>
+							Just Released!
+						</Ribbon>
+					)}
 				</ImageWrapper>
 				<Spacer size={12} />
 				<Row>
 					<Name>{name}</Name>
-					<Price>{formatPrice(price)}</Price>
+					{variant === 'on-sale' ? (
+						<Price>
+							<strike>{formatPrice(price)}</strike>
+						</Price>
+					) : (
+						<Price>{formatPrice(price)}</Price>
+					)}
 				</Row>
 				<Row>
 					<ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+					{variant === 'on-sale' && (
+						<SalePrice>{formatPrice(salePrice)}</SalePrice>
+					)}
 				</Row>
 			</Wrapper>
 		</Link>
@@ -65,7 +82,22 @@ const Image = styled.img`
 	width: 100%;
 `;
 
+const Ribbon = styled.div`
+	position: absolute;
+	top: 12px;
+	right: -4px;
+	color: ${COLORS.white};
+	font-weight: 700;
+	font-size: 0.875rem;
+	line-height: 1.167em;
+	border-radius: 2px;
+	padding: 8px 9px;
+	background-color: var(--bgcolor);
+`;
+
 const Row = styled.div`
+	display: flex;
+	justify-content: space-between;
 	font-size: 1rem;
 `;
 
